@@ -347,7 +347,7 @@ export class MainMenuScene extends Phaser.Scene {
     const gap = 72;
 
     this.createButton(menuX, startY, "START GAME", () => {
-      this.showStatus("Start Game is ready for the future gameplay scene.");
+      this.startGame();
     });
 
     this.createButton(menuX, startY + gap, "CHOOSE HERO", () => {
@@ -355,11 +355,24 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     this.createButton(menuX, startY + gap * 2, "SETTINGS", () => {
-      this.showStatus("Settings panel is a placeholder for now.");
+      this.scene.start("SettingsScene");
     });
 
     this.createButton(menuX, startY + gap * 3, "EXIT", () => {
-      this.showStatus("Exit is disabled in the browser prototype.");
+      this.exitGame();
+    });
+  }
+
+
+  private startGame(): void {
+    this.scene.start("MainScene");
+  }
+
+  private exitGame(): void {
+    window.close();
+
+    this.time.delayedCall(120, () => {
+      this.showStatus("The browser blocked automatic closing. You can close this tab.");
     });
   }
 
