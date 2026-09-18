@@ -91,7 +91,7 @@ export class SettingsScene extends Phaser.Scene {
       },
     );
 
-    this.input.on("fullscreenchange", this.updateFullscreenState, this);
+    document.addEventListener("fullscreenchange", this.updateFullscreenState);
     this.updateFullscreenState();
   }
 
@@ -113,6 +113,6 @@ export class SettingsScene extends Phaser.Scene {
   }
 
   shutdown(): void {
-    this.input.off("fullscreenchange", this.updateFullscreenState, this);
+    document.removeEventListener("fullscreenchange", this.updateFullscreenState);
   }
 }
