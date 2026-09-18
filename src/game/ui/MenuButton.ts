@@ -77,7 +77,6 @@ export class MenuButton extends Phaser.GameObjects.Container {
     this.on("pointerover", this.handlePointerOver, this);
     this.on("pointerout", this.handlePointerOut, this);
     this.on("pointerdown", this.handlePointerDown, this);
-    this.on("pointerup", this.handlePointerUp, this);
     this.on("pointerdown", onClick);
 
     scene.add.existing(this);
