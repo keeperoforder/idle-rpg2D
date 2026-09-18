@@ -3,11 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#111827" />
-    <title>Idle RPG 2D</title>
+    <meta name="theme-color" content="#090b0f" />
+    <title>Idle Realms</title>
+    <style>
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background: #090b0f;
+      }
+    </style>
   </head>
   <body>
+    <div id="boot-screen">AWAKENING THE REALMS…</div>
     <div id="game"></div>
-    <script type="module" src="/src/main.ts"></script>
+
+    <script>
+      (() => {
+        const boot = document.getElementById("boot-screen");
+
+        window.addEventListener("error", (event) => {
+          if (!boot) return;
+          boot.classList.add("error");
+          boot.textContent = "GAME BOOT ERROR: " + (event.message || "Unknown error");
+        });
+
+        window.addEventListener("unhandledrejection", (event) => {
+          if (!boot) return;
+          boot.classList.add("error");
+          boot.textContent = "GAME BOOT ERROR: " + (event.reason?.message || String(event.reason));
+        });
+      })();
+    </script>
+
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
