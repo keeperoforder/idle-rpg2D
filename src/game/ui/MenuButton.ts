@@ -12,7 +12,7 @@ export class MenuButton extends Phaser.GameObjects.Container {
   private readonly border: Phaser.GameObjects.Rectangle;
   private readonly label: Phaser.GameObjects.Text;
   private readonly glow: Phaser.GameObjects.Rectangle;
-  private readonly baseY: number;
+  private readonly baseX: number;
   private readonly accentHex: string;
   private readonly accentColor: number;
 
@@ -26,7 +26,7 @@ export class MenuButton extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y);
 
-    this.baseY = y;
+    this.baseX = x;
     this.accentColor = options.accentColor ?? 0xc4a36a;
     this.accentHex = options.accentHex ?? "#c4a36a";
 
@@ -35,7 +35,8 @@ export class MenuButton extends Phaser.GameObjects.Container {
 
     this.glow = scene.add
       .rectangle(0, 0, width + 14, height + 12, this.accentColor, 0)
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setAlpha(0);
 
     this.background = scene.add
       .rectangle(0, 0, width, height, 0x14171c, 0.94)
@@ -112,13 +113,13 @@ export class MenuButton extends Phaser.GameObjects.Container {
 
     this.scene.tweens.add({
       targets: this.label,
-      color: this.accentHex,
       scaleX: 1.02,
       scaleY: 1.02,
       duration: 180,
       ease: "Sine.Out",
     });
 
+    this.label.setColor(this.accentHex);
     this.border.setStrokeStyle(2, this.accentColor, 0.95);
   }
 
@@ -152,13 +153,13 @@ export class MenuButton extends Phaser.GameObjects.Container {
 
     this.scene.tweens.add({
       targets: this.label,
-      color: "#e7e0cf",
       scaleX: 1,
       scaleY: 1,
       duration: 160,
       ease: "Sine.Out",
     });
 
+    this.label.setColor("#e7e0cf");
     this.border.setStrokeStyle(2, 0x3b4048, 0.95);
   }
 
