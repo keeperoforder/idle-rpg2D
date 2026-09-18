@@ -22,6 +22,7 @@ export class MenuButton extends Phaser.GameObjects.Container {
   private readonly accentColor: number;
   private hoverTimer: Phaser.Time.TimerEvent | null = null;
   private isHovered = false;
+  private isDisabled = false;
 
   constructor(
     scene: Phaser.Scene,
@@ -114,6 +115,49 @@ export class MenuButton extends Phaser.GameObjects.Container {
     scene.add.existing(this);
   }
 
+  public setDisabled(disabled: boolean): void {
+    if (this.isDisabled === disabled) {
+      return;
+    }
+
+    this.isDisabled = disabled;
+    this.clearHoverTimer();
+    this.isHovered = false;
+
+    if (disabled) {
+      this.disableInteractive();
+      this.scene.tweens.killTweensOf(this);
+      this.scene.tweens.add({
+        targets: this,
+        alpha: 0.42,
+        duration: 180,
+        ease: "Sine.Out",
+      });
+      this.border.setStrokeStyle(1.5, 0x33383f, 0.75);
+      return;
+    }
+
+    this.setInteractive({
+      useHandCursor: true,
+      hitArea: new Phaser.Geom.Rectangle(
+        -this.width / 2,
+        -this.height / 2,
+        this.width,
+        this.height,
+      ),
+      hitAreaCallback: Phaser.Geom.Rectangle.Contains,
+    });
+
+    this.scene.tweens.add({
+      targets: this,
+      alpha: 1,
+      duration: 180,
+      ease: "Sine.Out",
+    });
+
+    this.border.setStrokeStyle(1.5, 0x3e454e, 0.95);
+  }
+
   public animateIn(delay: number): void {
     this.alpha = 0;
     this.y = this.baseY + 12;
@@ -133,10 +177,14 @@ export class MenuButton extends Phaser.GameObjects.Container {
   }
 
   private handlePointerOver(): void {
+    if (this.isDisabled) {
+      return;
+    }
+
     this.clearHoverTimer();
 
     this.hoverTimer = this.scene.time.delayedCall(150, () => {
-      if (!this.active) {
+      if (!this.active || this.isDisabled) {
         return;
       }
 
@@ -147,6 +195,10 @@ export class MenuButton extends Phaser.GameObjects.Container {
   }
 
   private handlePointerOut(): void {
+    if (this.isDisabled) {
+      return;
+    }
+
     this.clearHoverTimer();
 
     if (!this.isHovered) {
@@ -237,15 +289,13 @@ export class MenuButton extends Phaser.GameObjects.Container {
 
   private applyDefault(): void {
     this.scene.tweens.killTweensOf(this);
-    this.scene.tweens.killTweensOf([
-      this.glow,
-      this.background,
-      this.innerPanel,
-      this.border,
-      this.accentLine,
-      this.label,
-      this.shadow,
-    ]);
+    this.scene.tweens.killTweensOf(this.glow);
+    this.scene.tweens.killTweensOf(this.background);
+    this.scene.tweens.killTweensOf(this.innerPanel);
+    this.scene.tweens.killTweensOf(this.border);
+    this.scene.tweens.killTweensOf(this.accentLine);
+    this.scene.tweens.killTweensOf(this.label);
+    this.scene.tweens.killTweensOf(this.shadow);
 
     this.scene.tweens.add({
       targets: this,
@@ -309,6 +359,10 @@ export class MenuButton extends Phaser.GameObjects.Container {
   }
 
   private handlePointerDown(): void {
+    if (this.isDisabled) {
+      return;
+    }
+
     this.scene.tweens.killTweensOf(this);
 
     this.scene.tweens.add({
