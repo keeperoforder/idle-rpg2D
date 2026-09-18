@@ -166,15 +166,13 @@ export class MenuButton extends Phaser.GameObjects.Container {
 
   private applyHover(): void {
     this.scene.tweens.killTweensOf(this);
-    this.scene.tweens.killTweensOf([
-      this.glow,
-      this.background,
-      this.innerPanel,
-      this.border,
-      this.accentLine,
-      this.label,
-      this.shadow,
-    ]);
+    this.scene.tweens.killTweensOf(this.glow);
+    this.scene.tweens.killTweensOf(this.background);
+    this.scene.tweens.killTweensOf(this.innerPanel);
+    this.scene.tweens.killTweensOf(this.border);
+    this.scene.tweens.killTweensOf(this.accentLine);
+    this.scene.tweens.killTweensOf(this.label);
+    this.scene.tweens.killTweensOf(this.shadow);
 
     this.scene.tweens.add({
       targets: this,
