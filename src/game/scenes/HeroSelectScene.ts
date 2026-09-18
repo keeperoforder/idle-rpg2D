@@ -241,19 +241,14 @@ export class HeroSelectScene extends Phaser.Scene {
   }
 
   private playIntro(): void {
-    const objects = this.children.list.filter(
-      (child) => child !== this.confirmButton,
-    );
+    this.selectionText.alpha = 0;
 
-    objects.forEach((child, index) => {
-      child.alpha = child.alpha * 0;
-      this.tweens.add({
-        targets: child,
-        alpha: 1,
-        duration: 420,
-        delay: Math.min(index * 22, 260),
-        ease: "Sine.Out",
-      });
+    this.tweens.add({
+      targets: this.selectionText,
+      alpha: 1,
+      duration: 420,
+      delay: 420,
+      ease: "Sine.Out",
     });
 
     this.heroCards.forEach((card, index) => {
