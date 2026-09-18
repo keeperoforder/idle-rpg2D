@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { MenuButton } from "../ui/MenuButton";
+import { gameState } from "../state/GameState";
 
 interface ParallaxLayer {
   object: Phaser.GameObjects.GameObject & { x: number; y: number };
@@ -365,7 +366,12 @@ export class MainMenuScene extends Phaser.Scene {
 
 
   private startGame(): void {
-    this.scene.start("MainScene");
+    if (gameState.getCurrentHeroId()) {
+      this.scene.start("MainScene");
+      return;
+    }
+
+    this.scene.start("HeroSelectScene");
   }
 
   private exitGame(): void {
