@@ -351,7 +351,7 @@ export class MainMenuScene extends Phaser.Scene {
     });
 
     this.createButton(menuX, startY + gap, "CHOOSE HERO", () => {
-      this.showStatus("Hero selection will be connected in the next system.");
+      this.scene.start("HeroSelectScene");
     });
 
     this.createButton(menuX, startY + gap * 2, "SETTINGS", () => {
