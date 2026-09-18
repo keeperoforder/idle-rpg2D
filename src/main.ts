@@ -10,9 +10,12 @@ const config: Phaser.Types.Core.GameConfig = {
   height: 720,
   backgroundColor: "#090b0f",
   pixelArt: false,
-  antialias: true,
-  roundPixels: true,
   resolution: Math.min(window.devicePixelRatio || 1, 2),
+  render: {
+    antialias: true,
+    roundPixels: true,
+    powerPreference: "high-performance",
+  },
   scene: [BootScene, MainMenuScene],
   scale: {
     mode: Phaser.Scale.FIT,
