@@ -2,10 +2,11 @@ import Phaser from "phaser";
 import { MenuButton } from "../ui/MenuButton";
 
 interface ParallaxLayer {
-  object: Phaser.GameObjects.GameObject;
+  object: Phaser.GameObjects.GameObject & { x: number; y: number };
   baseX: number;
   baseY: number;
-  strength: number;
+  strengthX: number;
+  strengthY: number;
 }
 
 export class MainMenuScene extends Phaser.Scene {
@@ -38,8 +39,8 @@ export class MainMenuScene extends Phaser.Scene {
 
   update(): void {
     for (const layer of this.parallaxLayers) {
-      const targetX = layer.baseX + this.pointerParallaxX * layer.strength;
-      const targetY = layer.baseY + this.pointerParallaxY * layer.strength;
+      const targetX = layer.baseX + this.pointerParallaxX * layer.strengthX;
+      const targetY = layer.baseY + this.pointerParallaxY * layer.strengthY;
 
       layer.object.x = Phaser.Math.Linear(layer.object.x, targetX, 0.035);
       layer.object.y = Phaser.Math.Linear(layer.object.y, targetY, 0.035);
@@ -96,7 +97,8 @@ export class MainMenuScene extends Phaser.Scene {
       object: distantMountains,
       baseX: 0,
       baseY: 0,
-      strength: 3,
+      strengthX: 3,
+      strengthY: 3,
     });
 
     this.add
@@ -171,14 +173,16 @@ export class MainMenuScene extends Phaser.Scene {
       object: mistBack,
       baseX: mistBack.x,
       baseY: mistBack.y,
-      strength: 1.6,
+      strengthX: 1.6,
+      strengthY: 1.6,
     });
 
     this.parallaxLayers.push({
       object: mistFront,
       baseX: mistFront.x,
       baseY: mistFront.y,
-      strength: 2.2,
+      strengthX: 2.2,
+      strengthY: 2.2,
     });
   }
 
@@ -301,7 +305,8 @@ export class MainMenuScene extends Phaser.Scene {
       object: this.logoGroup,
       baseX: width / 2,
       baseY: logoY,
-      strength: 1.15,
+      strengthX: 1.15,
+      strengthY: 0,
     });
 
     this.logoGroup.alpha = 0;
