@@ -1,3 +1,12 @@
+export type HeroId = "warrior" | "archer" | "mage";
+
+export interface HeroDefinition {
+  id: HeroId;
+  name: string;
+  description: string;
+  role: string;
+}
+
 export interface HeroStats {
   level: number;
   hp: number;
