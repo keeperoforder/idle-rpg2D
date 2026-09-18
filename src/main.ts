@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import "./styles.css";
 import { BootScene } from "./game/scenes/BootScene";
 import { MainMenuScene } from "./game/scenes/MainMenuScene";
+import { HeroSelectScene } from "./game/scenes/HeroSelectScene";
+import { MainScene } from "./game/scenes/MainScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -16,7 +18,7 @@ const config: Phaser.Types.Core.GameConfig = {
     roundPixels: true,
     powerPreference: "high-performance",
   },
-  scene: [BootScene, MainMenuScene],
+  scene: [BootScene, MainMenuScene, HeroSelectScene, MainScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
